@@ -1,0 +1,36 @@
+<po-page-default>
+  <h1>Planning Poker FrameSP</h1>
+  <po-widget>
+    <div class="header-container">
+      <img
+        class="header-image"
+        src="../../../assets/imagens/planning_poker_logo_256x256.pngnpm install -g @angular/cli
+        "
+        alt="Logo"
+      />
+    </div>
+    <form [formGroup]="loginForm">
+      <po-input
+        name="input"
+        p-label="Nome"
+        p-help="Informe um Nome de Usuário"
+        formControlName="name"
+      >
+      </po-input>
+      <po-combo
+        name="sala"
+        p-label="Sala"
+        p-help="Selecione a sala que deseja participar"
+        formControlName="room"
+        [p-options]="[{ value: 'Option 1' }, { value: 'Option 2' }]"
+      >
+      </po-combo>
+      <po-button
+        p-label="Entrar"
+        (p-click)="login()"
+        [p-disabled]="!this.loginForm.valid"
+      >
+      </po-button>
+    </form>
+  </po-widget>
+</po-page-default>

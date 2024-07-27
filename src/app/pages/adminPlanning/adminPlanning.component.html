@@ -1,0 +1,43 @@
+<po-page-default>
+  <h1>Planning Poker FrameSP</h1>
+  <po-widget>
+    <div class="header-container">
+      <img
+        class="header-image"
+        src="../../../assets/imagens/planning_poker_logo_256x256.pngnpm install -g @angular/cli
+        "
+        alt="Logo"
+      />
+    </div>
+    <form [formGroup]="adminForm">
+      <po-input
+        name="input"
+        p-label="Nome"
+        p-help="Informe um Nome da nova votação"
+        formControlName="name"
+      >
+      </po-input>
+      <po-combo
+        name="squad"
+        p-label="squad"
+        p-help="Selecione a Squad"
+        formControlName="squad"
+        [p-options]="squadNames"
+      >
+      </po-combo>
+      <po-button
+        p-label="Adicionar"
+        (p-click)="newPlanning()"
+        [p-disabled]="!this.adminForm.valid"
+      >
+      </po-button>
+    </form>
+  </po-widget>
+
+  <po-table
+    [p-columns]="columns"
+    [p-items]="items"
+    [p-loading]="isLoadingTable"
+  >
+  </po-table>
+</po-page-default>
