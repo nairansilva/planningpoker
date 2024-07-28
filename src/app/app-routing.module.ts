@@ -7,7 +7,7 @@ import { AdminPlanningComponent } from './pages/adminPlanning/adminPlanning.comp
 const routes: Routes = [
   { path: '', component: LoginComponent },
   { path: 'login', component: LoginComponent },
-  { path: 'voting', component: VotingComponent },
+  { path: 'voting/:id/:type', component: VotingComponent },
   { path: 'admin', component: AdminPlanningComponent },
 ];
 @NgModule({

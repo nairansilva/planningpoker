@@ -1,0 +1,29 @@
+<po-container>
+  <h1>{{ title }}</h1>
+  <p>
+    {{ description }}
+  </p>
+  <ul>
+    @for (item of pointDescription; track item.point) {
+    <li>{{ item?.point }}</li>
+    }
+  </ul>
+</po-container>
+
+<div class="po-row">
+  <po-widget
+    [p-primary]="point[0]"
+    (p-click)="selectPoint([true, false, false], 1)"
+    >1</po-widget
+  >
+  <po-widget
+    [p-primary]="point[1]"
+    (p-click)="selectPoint([false, true, false], 2)"
+    >2</po-widget
+  >
+  <po-widget
+    [p-primary]="point[2]"
+    (p-click)="selectPoint([false, false, true], 3)"
+    >3</po-widget
+  >
+</div>

@@ -1,3 +1,34 @@
-<p>
-  voting works!
-</p>
+<po-page-default>
+  @if (type === '1') {
+  <po-stepper>
+    <po-step p-label="Funcionalidade">
+      <app-voteThread
+        title="Funcionalidade"
+        description="Pontuação atribuída com base na complexidade das funcionalidades da tarefa E REGRA DE NEGÓCIO."
+        [pointDescription]="[
+          { point: '1 - Simples' },
+          { point: '2 - Moderada' },
+          { point: '3 - Complexa' }
+        ]"
+        (cardPoint)="receiveFunctionalityPoint($event)"
+      ></app-voteThread>
+    </po-step>
+    <po-step p-label="Integrações">
+      <app-voteThread
+        title="Integrações"
+        description="Pontuação atribuída com base na complexidade das integrações necessárias com outros sistemas ou serviços."
+        [pointDescription]="[
+          { point: '0 (Nenhuma)' },
+          { point: '1 - Simples' },
+          { point: '2 - Moderada' },
+          { point: '3 - Complexa' }
+        ]"
+        (cardPoint)="receiveIntegrationPoint($event)"
+      ></app-voteThread>
+    </po-step>
+  </po-stepper>
+  } @else {
+  <po-button p-label="Totalizar"></po-button>
+  <po-button p-label="Finailar" (p-click)="finish()"></po-button>
+  }
+</po-page-default>

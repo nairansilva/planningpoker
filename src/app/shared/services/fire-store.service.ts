@@ -19,6 +19,10 @@ export class FirestoreService {
       .valueChanges({ idField: 'id' });
   }
 
+  addDocumentWithID(collectionName: string, docID: string, data: any) {
+    return this.firestore.collection(collectionName).doc(docID).set(data);
+  }
+
   getFilteredRecords(
     collection: string,
     filters: {
@@ -33,6 +37,20 @@ export class FirestoreService {
         for (const filter of filters) {
           query = query.where(filter.field, filter.operator, filter.filter);
         }
+        return query;
+      })
+      .valueChanges({ idField: 'id' });
+  }
+
+  getRecordById(collection: string, id: string): Observable<any> {
+    return this.firestore.collection(collection).doc(id).valueChanges();
+  }
+
+  getRecordByIdStartWith(collection: string, prefix: string): Observable<any> {
+    return this.firestore
+      .collection(collection, (ref) => {
+        let query: any = ref;
+        query.orderBy('__name__').startAt(prefix);
         return query;
       })
       .valueChanges({ idField: 'id' });

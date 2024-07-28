@@ -33,7 +33,10 @@ export class AdminPlanningComponent implements OnInit {
       id: [''],
       name: ['', Validators.required],
       squad: ['', Validators.required],
+      status: [true],
       date: [new Date()],
+      refresh: [new Date()],
+      finish: [new Date()],
     });
     this.buildColumns();
     this.getItems();
@@ -112,4 +115,6 @@ export class AdminPlanningComponent implements OnInit {
       name: line.name,
     });
   }
+
+  finishPlanning() {}
 }
