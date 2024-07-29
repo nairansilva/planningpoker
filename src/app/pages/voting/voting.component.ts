@@ -105,8 +105,16 @@ export class VotingComponent implements OnInit, OnDestroy {
                 this.experiencePoint = -1;
                 this.dependencePoint = -1;
                 this.testPoint = -1;
-                this.poModal.close();
                 this.showTotal = false;
+                this.firestoreService
+                  .updateDoc(
+                    'planningVotes',
+                    this.id + this.utilsService.getUser(),
+                    this.generateFormVoting()
+                  )
+                  .then();
+                this.poModal.close();
+                this.poNotificationService.success('Votação Reiniciada');
                 this.poStepperComponent.first();
               }
 
@@ -152,10 +160,6 @@ export class VotingComponent implements OnInit, OnDestroy {
     this.firestoreService
       .updateDoc('planning', this.id, { finish: new Date() })
       .then();
-
-    this.items.map((item: any) => {
-      this.firestoreService.updateDoc('planningVotes', item.id, restForm);
-    });
   }
 
   inicializeVotting() {
