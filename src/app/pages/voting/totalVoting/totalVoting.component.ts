@@ -72,12 +72,6 @@ export class TotalVotingComponent implements OnInit {
   }
 
   calPlanning(points: any) {
-    // (Object.keys(this.totalVotingPoints) as Array<keyof VotingPoints>).forEach(
-    //   (prop) => {
-    //     this.totalVotingPoints[prop] = 0;
-    //   }
-    // );
-
     this.totalVotingPoints = {
       functionalityPoint: [-1],
       integrationPoint: [-1],

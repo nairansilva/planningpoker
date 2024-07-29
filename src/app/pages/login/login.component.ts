@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private utilsService: UtilsService
   ) {
+    this.poNotificationService.setDefaultDuration(3000);
     this.loginForm = this.fb.group({
       id: [''],
       name: ['', Validators.required],

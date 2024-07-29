@@ -30,6 +30,7 @@ export class AdminPlanningComponent implements OnInit {
     private poNotificationService: PoNotificationService,
     private firestoreService: FirestoreService
   ) {
+    this.poNotificationService.setDefaultDuration(3000);
     this.adminForm = this.fb.group({
       id: [''],
       name: ['', Validators.required],
@@ -100,7 +101,6 @@ export class AdminPlanningComponent implements OnInit {
         plannings.dateFormated = plannings.date.toDate().toLocaleDateString();
         plannings.icons = ['edit', 'delet', 'finish'];
       });
-      console.log(data);
       this.items = data;
       this.isLoadingTable = false;
     });
