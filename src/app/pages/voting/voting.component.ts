@@ -111,12 +111,6 @@ export class VotingComponent implements OnInit, OnDestroy {
       .then();
   }
 
-  caltTotal() {
-    this.firestoreService
-      .updateDoc('planning', this.id, { finish: new Date() })
-      .then();
-  }
-
   finish() {
     console.log(this.items);
     const restForm = {
@@ -129,6 +123,11 @@ export class VotingComponent implements OnInit, OnDestroy {
       dependencePoint: 0,
       testPoint: 0,
     };
+
+    this.firestoreService
+      .updateDoc('planning', this.id, { finish: new Date() })
+      .then();
+
     this.items.map((item: any) => {
       this.firestoreService.updateDoc('planningVotes', item.id, restForm);
     });
