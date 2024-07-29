@@ -20,7 +20,7 @@ export class TotalVotingComponent implements OnInit {
   midPoints = 0;
 
   getRecordByIdStartWith: Subscription;
-  totalVottingPoints = {
+  totalVotingPoints = {
     functionalityPoint: [0],
     integrationPoint: [0],
     tecnologyPoint: [0],
@@ -72,13 +72,13 @@ export class TotalVotingComponent implements OnInit {
   }
 
   calPlanning(points: any) {
-    // (Object.keys(this.totalVottingPoints) as Array<keyof VotingPoints>).forEach(
+    // (Object.keys(this.totalVotingPoints) as Array<keyof VotingPoints>).forEach(
     //   (prop) => {
-    //     this.totalVottingPoints[prop] = 0;
+    //     this.totalVotingPoints[prop] = 0;
     //   }
     // );
 
-    this.totalVottingPoints = {
+    this.totalVotingPoints = {
       functionalityPoint: [-1],
       integrationPoint: [-1],
       tecnologyPoint: [-1],
@@ -94,14 +94,14 @@ export class TotalVotingComponent implements OnInit {
 
     let total = 0;
     points.map((point: VotingPointsInterface) => {
-      this.totalVottingPoints.functionalityPoint.push(point.functionalityPoint);
-      this.totalVottingPoints.integrationPoint.push(point.integrationPoint);
-      this.totalVottingPoints.tecnologyPoint.push(point.tecnologyPoint);
-      this.totalVottingPoints.riskPoint.push(point.riskPoint);
-      this.totalVottingPoints.scopePoint.push(point.scopePoint);
-      this.totalVottingPoints.experiencePoint.push(point.experiencePoint);
-      this.totalVottingPoints.dependencePoint.push(point.dependencePoint);
-      this.totalVottingPoints.testPoint.push(point.testPoint);
+      this.totalVotingPoints.functionalityPoint.push(point.functionalityPoint);
+      this.totalVotingPoints.integrationPoint.push(point.integrationPoint);
+      this.totalVotingPoints.tecnologyPoint.push(point.tecnologyPoint);
+      this.totalVotingPoints.riskPoint.push(point.riskPoint);
+      this.totalVotingPoints.scopePoint.push(point.scopePoint);
+      this.totalVotingPoints.experiencePoint.push(point.experiencePoint);
+      this.totalVotingPoints.dependencePoint.push(point.dependencePoint);
+      this.totalVotingPoints.testPoint.push(point.testPoint);
 
       total += point.dependencePoint;
       total += point.integrationPoint;
@@ -115,24 +115,22 @@ export class TotalVotingComponent implements OnInit {
 
     this.totalPoints = 0;
     this.totalPoints += this.mostCommonValue(
-      this.totalVottingPoints.dependencePoint
+      this.totalVotingPoints.dependencePoint
     );
     this.totalPoints += this.mostCommonValue(
-      this.totalVottingPoints.functionalityPoint
+      this.totalVotingPoints.functionalityPoint
     );
     this.totalPoints += this.mostCommonValue(
-      this.totalVottingPoints.tecnologyPoint
+      this.totalVotingPoints.tecnologyPoint
     );
-    this.totalPoints += this.mostCommonValue(this.totalVottingPoints.riskPoint);
+    this.totalPoints += this.mostCommonValue(this.totalVotingPoints.riskPoint);
+    this.totalPoints += this.mostCommonValue(this.totalVotingPoints.scopePoint);
     this.totalPoints += this.mostCommonValue(
-      this.totalVottingPoints.scopePoint
+      this.totalVotingPoints.experiencePoint
     );
+    this.totalPoints += this.mostCommonValue(this.totalVotingPoints.testPoint);
     this.totalPoints += this.mostCommonValue(
-      this.totalVottingPoints.experiencePoint
-    );
-    this.totalPoints += this.mostCommonValue(this.totalVottingPoints.testPoint);
-    this.totalPoints += this.mostCommonValue(
-      this.totalVottingPoints.integrationPoint
+      this.totalVotingPoints.integrationPoint
     );
 
     this.midPoints = Math.trunc(total / this.totalVotes);

@@ -1,6 +1,6 @@
 /* Estilo para o título principal */
 h1 {
-  font-family: "Arial", sans-serif;
+  font-family: "NunitoSans-ExtraLight", sans-serif;
   font-size: 2.5em;
   color: #333;
   text-align: center;
@@ -11,7 +11,7 @@ h1 {
 
 /* Estilo para o título secundário */
 h2 {
-  font-family: "Arial", sans-serif;
+  font-family: "NunitoSans-ExtraLight", sans-serif;
   font-size: 2em;
   color: #555;
   text-align: center;

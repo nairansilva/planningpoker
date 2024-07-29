@@ -26,10 +26,10 @@ export class VotingComponent implements OnInit, OnDestroy {
   refreshTime: any;
   changeTshirt: string = '';
   startOpen = true;
-  idVotting = '';
+  idVoting = '';
 
   showTotal = false;
-  totalVottingPoints = {
+  totalVotingPoints = {
     functionalityPoint: [0],
     integrationPoint: [0],
     tecnologyPoint: [0],
@@ -134,7 +134,7 @@ export class VotingComponent implements OnInit, OnDestroy {
               this.resetVotes = res.finish;
               this.refreshTime = res.refresh;
               this.changeTshirt = res.tshirt;
-              this.inicializeVotting();
+              this.inicializeVoting();
             }
           },
         });
@@ -165,18 +165,18 @@ export class VotingComponent implements OnInit, OnDestroy {
       .then();
   }
 
-  inicializeVotting() {
-    this.idVotting = this.id + this.utilsService.getUser();
+  inicializeVoting() {
+    this.idVoting = this.id + this.utilsService.getUser();
     this.firestoreService.addDocumentWithID(
       'planningVotes',
-      this.idVotting,
+      this.idVoting,
       this.generateFormVoting()
     );
   }
 
   updatePoints() {
     this.firestoreService
-      .updateDoc('planningVotes', this.idVotting, this.generateFormVoting())
+      .updateDoc('planningVotes', this.idVoting, this.generateFormVoting())
       .then();
   }
 

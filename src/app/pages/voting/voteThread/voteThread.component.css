@@ -23,7 +23,7 @@ ul {
 }
 
 ul li {
-  font-family: "Verdana", sans-serif;
+  font-family: "NunitoSans-ExtraLight", sans-serif;
   font-size: 1em;
   color: #444;
   background: #f9f9f9;
@@ -50,6 +50,7 @@ po-widget {
 
 /* Estilo para o número em destaque */
 po-widget .highlighted-number {
+  margin-top: 10px;
   color: rgb(12, 12, 12);
   font-size: 30px;
   font-weight: bold;
