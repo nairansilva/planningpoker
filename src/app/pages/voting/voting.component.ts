@@ -36,14 +36,14 @@ export class VotingComponent implements OnInit, OnDestroy {
     testPoint: [0],
   };
 
-  functionalityPoint = 0;
-  integrationPoint = 0;
-  tecnologyPoint = 0;
-  riskPoint = 0;
-  scopePoint = 0;
-  experiencePoint = 0;
-  dependencePoint = 0;
-  testPoint = 0;
+  functionalityPoint = -1;
+  integrationPoint = -1;
+  tecnologyPoint = -1;
+  riskPoint = -1;
+  scopePoint = -1;
+  experiencePoint = -1;
+  dependencePoint = -1;
+  testPoint = -1;
 
   getRecordByIdStartWith: Subscription;
   getRecordById: Subscription;
@@ -136,14 +136,14 @@ export class VotingComponent implements OnInit, OnDestroy {
 
   finish() {
     const restForm = {
-      functionalityPoint: 0,
-      integrationPoint: 0,
-      tecnologyPoint: 0,
-      riskPoint: 0,
-      scopePoint: 0,
-      experiencePoint: 0,
-      dependencePoint: 0,
-      testPoint: 0,
+      functionalityPoint: -1,
+      integrationPoint: -1,
+      tecnologyPoint: -1,
+      riskPoint: -1,
+      scopePoint: -1,
+      experiencePoint: -1,
+      dependencePoint: -1,
+      testPoint: -1,
     };
 
     this.firestoreService
@@ -211,6 +211,10 @@ export class VotingComponent implements OnInit, OnDestroy {
         ],
       },
     ]);
+  }
+
+  canActiveNextStep(value: string): boolean {
+    return eval('this.' + value) >= 0;
   }
 
   calPlanning(points: any) {

@@ -1,7 +1,12 @@
 <po-page-default>
   @if (type === '1') {
   <po-stepper>
-    <po-step p-label="Funcionalidade">
+    <po-step
+      p-label="Funcionalidade"
+      [p-can-active-next-step]="
+        canActiveNextStep.bind(this, 'functionalityPoint')
+      "
+    >
       <app-voteThread
         title="Funcionalidade"
         description="Pontuação atribuída com base na complexidade das funcionalidades da tarefa E REGRA DE NEGÓCIO."
@@ -13,7 +18,12 @@
         (cardPoint)="receiveFunctionalityPoint($event)"
       ></app-voteThread>
     </po-step>
-    <po-step p-label="Integrações">
+    <po-step
+      p-label="Integrações"
+      [p-can-active-next-step]="
+        canActiveNextStep.bind(this, 'integrationPoint')
+      "
+    >
       <app-voteThread
         title="Integrações"
         description="Pontuação atribuída com base na complexidade das integrações necessárias com outros sistemas ou serviços."
@@ -26,7 +36,10 @@
         (cardPoint)="receiveIntegrationPoint($event)"
       ></app-voteThread
     ></po-step>
-    <po-step p-label="Tecnologia">
+    <po-step
+      p-label="Tecnologia"
+      [p-can-active-next-step]="canActiveNextStep.bind(this, 'tecnologyPoint')"
+    >
       <app-voteThread
         title="Tecnologia"
         description="Pontuação atribuída com base no grau de familiaridade da equipe com as tecnologias utilizadas no desenvovimento da demanda."
@@ -39,7 +52,10 @@
       ></app-voteThread>
     </po-step>
 
-    <po-step p-label="Riscos">
+    <po-step
+      p-label="Riscos"
+      [p-can-active-next-step]="canActiveNextStep.bind(this, 'riskPoint')"
+    >
       <app-voteThread
         title="Riscos"
         description="A probabilidade e o impacto de algo dar errado durante a execução da tarefa."
@@ -55,7 +71,10 @@
       ></app-voteThread>
     </po-step>
 
-    <po-step p-label="Escopo">
+    <po-step
+      p-label="Escopo"
+      [p-can-active-next-step]="canActiveNextStep.bind(this, 'scopePoint')"
+    >
       <app-voteThread
         title="Escopo"
         description="Existe clareza no que está sendo pedido na demanda? Os requisitos estão claros?"
@@ -68,7 +87,10 @@
       ></app-voteThread>
     </po-step>
 
-    <po-step p-label="Experiência do time">
+    <po-step
+      p-label="Experiência do time"
+      [p-can-active-next-step]="canActiveNextStep.bind(this, 'experiencePoint')"
+    >
       <app-voteThread
         title="Experiência do time"
         description="Pontuação atribuída com base na experiência da equipe com tarefas semelhantes."
@@ -81,7 +103,10 @@
       ></app-voteThread>
     </po-step>
 
-    <po-step p-label="Dependências">
+    <po-step
+      p-label="Dependências"
+      [p-can-active-next-step]="canActiveNextStep.bind(this, 'dependencePoint')"
+    >
       <app-voteThread
         title="Dependências"
         description="Pontuação atribuída com base na quantidade e complexidade das dependências externas que podem impactar a tarefa."
@@ -94,7 +119,10 @@
         (cardPoint)="receiveDependencePoint($event)"
       ></app-voteThread>
     </po-step>
-    <po-step p-label="Testes">
+    <po-step
+      p-label="Testes"
+      [p-can-active-next-step]="canActiveNextStep.bind(this, 'testPoint')"
+    >
       <app-voteThread
         title="Testes"
         description="Pontuação atribuída com base na experiência da equipe com tarefas semelhantes."
