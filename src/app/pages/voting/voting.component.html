@@ -24,11 +24,114 @@
           { point: '3 - Complexa' }
         ]"
         (cardPoint)="receiveIntegrationPoint($event)"
+      ></app-voteThread
+    ></po-step>
+    <po-step p-label="Tecnologia">
+      <app-voteThread
+        title="Tecnologia"
+        description="Pontuação atribuída com base no grau de familiaridade da equipe com as tecnologias utilizadas no desenvovimento da demanda."
+        [pointDescription]="[
+          { point: '1 - Conhecido' },
+          { point: '2 - Parcialmente Conhecido' },
+          { point: '3 - Desconhecido' }
+        ]"
+        (cardPoint)="receiveTecnologyPoint($event)"
+      ></app-voteThread>
+    </po-step>
+
+    <po-step p-label="Riscos">
+      <app-voteThread
+        title="Riscos"
+        description="A probabilidade e o impacto de algo dar errado durante a execução da tarefa."
+        [pointDescription]="[
+          { point: '1 - Poucos riscos conhecidos, de impacto mínimo' },
+          { point: '2 - Alguns riscos conhecidos, de impacto moderado.' },
+          {
+            point:
+              '3 - Vários riscos significativos, com potencial de alto impacto.'
+          }
+        ]"
+        (cardPoint)="receiveRiskPoint($event)"
+      ></app-voteThread>
+    </po-step>
+
+    <po-step p-label="Escopo">
+      <app-voteThread
+        title="Escopo"
+        description="Existe clareza no que está sendo pedido na demanda? Os requisitos estão claros?"
+        [pointDescription]="[
+          { point: '1 - Alta clareza' },
+          { point: '2 - Clareza Moderada' },
+          { point: '3 - Pouca Clareza' }
+        ]"
+        (cardPoint)="receiveScopePoint($event)"
+      ></app-voteThread>
+    </po-step>
+
+    <po-step p-label="Experiência do time">
+      <app-voteThread
+        title="Experiência do time"
+        description="Pontuação atribuída com base na experiência da equipe com tarefas semelhantes."
+        [pointDescription]="[
+          { point: '1 - Muita experiência' },
+          { point: '2 - Alguma experiência' },
+          { point: '3 - Pouco ou nenhuma clareza' }
+        ]"
+        (cardPoint)="receiveExperiencePoint($event)"
+      ></app-voteThread>
+    </po-step>
+
+    <po-step p-label="Dependências">
+      <app-voteThread
+        title="Dependências"
+        description="Pontuação atribuída com base na quantidade e complexidade das dependências externas que podem impactar a tarefa."
+        [pointDescription]="[
+          { point: '0 -  Nenhuma dependência' },
+          { point: '1 - Pouca dependência' },
+          { point: '2 - Dependências moderadas' },
+          { point: '3 - Múltiplas ou complexas dependências' }
+        ]"
+        (cardPoint)="receiveDependencePoint($event)"
+      ></app-voteThread>
+    </po-step>
+    <po-step p-label="Testes">
+      <app-voteThread
+        title="Testes"
+        description="Pontuação atribuída com base na experiência da equipe com tarefas semelhantes."
+        [pointDescription]="[
+          {
+            point: '1 - Teste extremamente fácil ou poucos cenários para testar'
+          },
+          { point: '2 - Moderado porém ainda simples (extenso/trabalhoso)' },
+          {
+            point:
+              '3 - Múltiplos testes, com vários bancos, plano de testes ...'
+          }
+        ]"
+        (cardPoint)="receiveTestPoint($event)"
       ></app-voteThread>
     </po-step>
   </po-stepper>
   } @else {
-  <po-button p-label="Totalizar"></po-button>
-  <po-button p-label="Finailar" (p-click)="finish()"></po-button>
+  <h1>Votação - {{ id }}</h1>
+
+  <po-widget>
+    <po-widget
+      ><h3>Total de Votantes:</h3>
+      {{ totalVotes }}</po-widget
+    >
+    <po-widget
+      ><h3>Média de Pontos:</h3>
+      {{ totalPoints }}</po-widget
+    >
+    <po-widget
+      ><h3>Tamanho da Camisa:</h3>
+      {{ tshirt }}</po-widget
+    >
+  </po-widget>
+  <h2>Participantes</h2>
+  <po-table [p-columns]="columns" [p-items]="items"> </po-table>
+  <po-button p-label="Totalizar" (p-click)="caltTotal()"></po-button>
+  <po-button p-label="Finalizar" (p-click)="finish()"></po-button>
   }
 </po-page-default>

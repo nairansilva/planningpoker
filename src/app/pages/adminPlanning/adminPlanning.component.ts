@@ -5,6 +5,7 @@ import {
   PoNotificationService,
   PoSelectOption,
   PoTableColumn,
+  PoTagType,
 } from '@po-ui/ng-components';
 
 @Component({
@@ -33,10 +34,11 @@ export class AdminPlanningComponent implements OnInit {
       id: [''],
       name: ['', Validators.required],
       squad: ['', Validators.required],
-      status: [true],
+      status: [1],
       date: [new Date()],
       refresh: [new Date()],
       finish: [new Date()],
+      resetVotes: [new Date()],
     });
     this.buildColumns();
     this.getItems();
@@ -51,6 +53,15 @@ export class AdminPlanningComponent implements OnInit {
       { property: 'squad', label: 'Squad' },
       { property: 'dateFormated', label: 'Data de Criação' },
       {
+        property: 'status',
+        type: 'label',
+        width: '8%',
+        labels: [
+          { value: 1, color: 'blue', label: 'Aberta' },
+          { value: 2, label: 'Finalizada', color: 'green' },
+        ],
+      },
+      {
         property: 'icons',
         label: 'Actions',
         type: 'icon',
@@ -59,16 +70,24 @@ export class AdminPlanningComponent implements OnInit {
           {
             action: this.editPlanning.bind(this),
             color: () => {},
+            disabled: this.validDisableIcons.bind(this),
             icon: 'po-icon-edit',
             tooltip: 'Editar',
             value: 'edit',
           },
           {
-            action: () => {},
-            disabled: () => {},
+            action: this.deletePlanning.bind(this),
+            disabled: this.validDisableIcons.bind(this),
             icon: 'po-icon-delete',
             tooltip: 'Deletar',
             value: 'delet',
+          },
+          {
+            action: this.finishPlanning.bind(this),
+            disabled: this.validDisableIcons.bind(this),
+            icon: 'po-icon-ok',
+            tooltip: 'Finalizar',
+            value: 'finish',
           },
         ],
       },
@@ -79,8 +98,9 @@ export class AdminPlanningComponent implements OnInit {
     this.firestoreService.getRecords('planning').subscribe((data) => {
       data.map((plannings) => {
         plannings.dateFormated = plannings.date.toDate().toLocaleDateString();
-        plannings.icons = ['edit', 'delet'];
+        plannings.icons = ['edit', 'delet', 'finish'];
       });
+      console.log(data);
       this.items = data;
       this.isLoadingTable = false;
     });
@@ -108,6 +128,9 @@ export class AdminPlanningComponent implements OnInit {
     }
   }
 
+  validDisableIcons(line: any): boolean {
+    return line.status == 2;
+  }
   editPlanning(line: any) {
     this.adminForm.patchValue({
       id: line.id,
@@ -116,5 +139,19 @@ export class AdminPlanningComponent implements OnInit {
     });
   }
 
-  finishPlanning() {}
+  deletePlanning(line: any) {
+    this.firestoreService
+      .deleteDoc('planning', line.id)
+      .then(() =>
+        this.poNotificationService.success('Planning Deletada com Sucesso')
+      );
+  }
+
+  finishPlanning(line: any) {
+    this.firestoreService
+      .updateDoc('planning', line.id, { status: 2 })
+      .then(() =>
+        this.poNotificationService.success('Planning Finalizada com Sucesso')
+      );
+  }
 }

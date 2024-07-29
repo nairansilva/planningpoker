@@ -9,7 +9,8 @@ export class VoteThreadComponent implements OnInit {
   @Input() title: string = '';
   @Input() description: string = '';
   @Input() pointDescription: any[] = [{ point: '' }];
-  point = [false, false, false];
+  point = [];
+  selected = -1;
 
   cardPoint = output<number>();
 
@@ -17,8 +18,8 @@ export class VoteThreadComponent implements OnInit {
 
   ngOnInit() {}
 
-  selectPoint(points: any, card: number) {
-    this.point = points;
+  selectPoint(card: number) {
+    this.selected = card;
     this.cardPoint.emit(card);
   }
 }

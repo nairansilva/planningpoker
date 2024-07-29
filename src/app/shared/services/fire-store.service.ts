@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import * as firebase from 'firebase/compat/app';
 
 @Injectable({
@@ -46,14 +46,25 @@ export class FirestoreService {
     return this.firestore.collection(collection).doc(id).valueChanges();
   }
 
-  getRecordByIdStartWith(collection: string, prefix: string): Observable<any> {
+  getRecordByIdStartWith(
+    collection: string,
+    prefix: string
+  ): Observable<any[]> {
+    const end = prefix + '\uf8ff'; // '\uf8ff' é um caractere Unicode que vem após todos os outros caracteres no conjunto Unicode.
     return this.firestore
-      .collection(collection, (ref) => {
-        let query: any = ref;
-        query.orderBy('__name__').startAt(prefix);
-        return query;
-      })
-      .valueChanges({ idField: 'id' });
+      .collection(collection, (ref) =>
+        ref.orderBy('__name__').startAt(prefix).endAt(end)
+      )
+      .snapshotChanges()
+      .pipe(
+        map((actions: any[]) =>
+          actions.map((a) => {
+            const data = a.payload.doc.data();
+            const id = a.payload.doc.id;
+            return { id, ...data };
+          })
+        )
+      );
   }
 
   getDocs(collection: string) {

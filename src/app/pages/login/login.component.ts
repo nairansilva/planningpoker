@@ -50,13 +50,14 @@ export class LoginComponent implements OnInit {
     const finalFilter = [
       {
         field: 'status',
-        filter: true,
+        filter: 1,
         operator: '==',
       },
     ];
     this.firestoreService
       .getFilteredRecords('planning', finalFilter)
       .subscribe((data) => {
+        this.rooms = [];
         data.map((plannings) => {
           this.rooms = this.rooms.concat({
             label: plannings.name,
