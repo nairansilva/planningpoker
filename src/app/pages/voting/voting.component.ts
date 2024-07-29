@@ -114,6 +114,9 @@ export class VotingComponent implements OnInit, OnDestroy {
                   )
                   .then();
                 this.poModal.close();
+                this.resetVotes = res.finish;
+                this.refreshTime = res.refresh;
+                this.changeTshirt = res.tshirt;
                 this.poNotificationService.success('Votação Reiniciada');
                 this.poStepperComponent.first();
               }
