@@ -11,6 +11,7 @@ import { VotingPointsInterface } from '../shared/interfaces/voting.model';
 })
 export class TotalVotingComponent implements OnInit {
   @Input() id = '';
+  @Input() type: string;
 
   columns: PoTableColumn[];
   items: any;
@@ -82,9 +83,6 @@ export class TotalVotingComponent implements OnInit {
       dependencePoint: [-1],
       testPoint: [-1],
     };
-
-    console.log(points);
-    console.log('Troquei os números');
 
     let total = 0;
     points.map((point: VotingPointsInterface) => {
@@ -189,6 +187,7 @@ export class TotalVotingComponent implements OnInit {
           {
             action: this.deleteVote.bind(this),
             icon: 'po-icon-delete',
+            disabled: this.validDisableIcons.bind(this),
             tooltip: 'Deletar',
             value: 'delet',
           },
@@ -199,5 +198,9 @@ export class TotalVotingComponent implements OnInit {
 
   deleteVote(line: any) {
     this.firestoreService.deleteDoc('planningVotes', line.id).then();
+  }
+
+  validDisableIcons() {
+    return this.type === '1';
   }
 }

@@ -136,7 +136,7 @@ export class VotingComponent implements OnInit, OnDestroy {
       .updateDoc('planning', this.id, { finish: new Date() })
       .then();
 
-    this.poNotificationService.error('Votação Reiniciada');
+    this.poNotificationService.success('Votação Reiniciada');
   }
 
   inicializeVoting(res: any) {
