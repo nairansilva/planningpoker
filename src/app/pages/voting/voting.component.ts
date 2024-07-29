@@ -8,6 +8,7 @@ import {
   PoStepperComponent,
   PoTableColumn,
   PoNotificationService,
+  PoModalComponent,
 } from '@po-ui/ng-components';
 
 @Component({
@@ -17,14 +18,17 @@ import {
 })
 export class VotingComponent implements OnInit, OnDestroy {
   @ViewChild(PoStepperComponent) poStepperComponent: PoStepperComponent;
+  @ViewChild(PoModalComponent, { static: true }) poModal: PoModalComponent;
 
   id: string;
   type: string;
-  resetVotes: Date;
-  refreshTime: Date;
+  resetVotes: any;
+  refreshTime: any;
+  changeTshirt: string = '';
   startOpen = true;
   idVotting = '';
 
+  showTotal = false;
   totalVottingPoints = {
     functionalityPoint: [0],
     integrationPoint: [0],
@@ -83,26 +87,42 @@ export class VotingComponent implements OnInit, OnDestroy {
       this.type = params['type'];
     });
 
-    if (this.type === '2') {
-      this.startAdmin();
-    } else {
+    if (this.type === '1') {
       this.getRecordById = this.firestoreService
         .getRecordById('planning', this.id)
         .subscribe({
           next: (res) => {
             if (!this.startOpen) {
-              if (this.resetVotes != res.resetVotes) {
+              if (
+                this.resetVotes.seconds != res.finish.seconds &&
+                this.resetVotes.nanoseconds != res.finish.nanoseconds
+              ) {
+                this.functionalityPoint = -1;
+                this.integrationPoint = -1;
+                this.tecnologyPoint = -1;
+                this.riskPoint = -1;
+                this.scopePoint = -1;
+                this.experiencePoint = -1;
+                this.dependencePoint = -1;
+                this.testPoint = -1;
+                this.poModal.close();
+                this.showTotal = false;
                 this.poStepperComponent.first();
               }
 
-              if (this.refreshTime != res.refresh) {
-                this.updatePoints();
-                this.poNotificationService.success('Votação Resetada');
+              if (
+                this.refreshTime.seconds != res.refresh.seconds &&
+                this.refreshTime.nanoseconds != res.refresh.nanoseconds
+              ) {
+                this.poNotificationService.success('Pontuação Atual');
+                this.showTotal = true;
+                this.poModal.open();
               }
             } else {
               this.startOpen = false;
-              this.resetVotes = res.resetVotes;
+              this.resetVotes = res.finish;
               this.refreshTime = res.refresh;
+              this.changeTshirt = res.tshirt;
               this.inicializeVotting();
             }
           },
@@ -110,28 +130,11 @@ export class VotingComponent implements OnInit, OnDestroy {
     }
   }
 
-  startAdmin() {
-    this.getRecordByIdStartWith = this.firestoreService
-      .getRecordByIdStartWith('planningVotes', this.id)
-      .subscribe({
-        next: (res) => {
-          this.items = [];
-          res.map((vote: any) => {
-            vote.name = vote.id.substr(this.id.length, vote.id.length);
-            vote.icons = ['delet'];
-            this.items = this.items.concat(vote);
-          });
-
-          this.totalVotes = res.length;
-          this.calPlanning(res);
-        },
-      });
-  }
-
-  totalize() {
+  showPoints() {
+    console.log(this.items);
     this.firestoreService
-      .updateDoc('planning', this.id, { tshirt: this.tshirt })
-      .then();
+      .updateDoc('planning', this.id, { refresh: new Date() })
+      .then(() => this.poNotificationService.success('Apresentação Realizada'));
   }
 
   finish() {
@@ -195,6 +198,8 @@ export class VotingComponent implements OnInit, OnDestroy {
       { property: 'experiencePoint', label: 'Experiência' },
       { property: 'dependencePoint', label: 'Dependência' },
       { property: 'testPoint', label: 'Testes' },
+      { property: 'totalPoints', label: 'Total' },
+      { property: 'tshirt', label: 'Camisa' },
 
       {
         property: 'icons',
@@ -215,101 +220,6 @@ export class VotingComponent implements OnInit, OnDestroy {
 
   canActiveNextStep(value: string): boolean {
     return eval('this.' + value) >= 0;
-  }
-
-  calPlanning(points: any) {
-    // (Object.keys(this.totalVottingPoints) as Array<keyof VotingPoints>).forEach(
-    //   (prop) => {
-    //     this.totalVottingPoints[prop] = 0;
-    //   }
-    // );
-
-    this.totalVottingPoints = {
-      functionalityPoint: [-1],
-      integrationPoint: [-1],
-      tecnologyPoint: [-1],
-      riskPoint: [-1],
-      scopePoint: [-1],
-      experiencePoint: [-1],
-      dependencePoint: [-1],
-      testPoint: [-1],
-    };
-
-    console.log(points);
-    console.log('Troquei os números');
-
-    let total = 0;
-    points.map((point: VotingPointsInterface) => {
-      this.totalVottingPoints.functionalityPoint.push(point.functionalityPoint);
-      this.totalVottingPoints.integrationPoint.push(point.integrationPoint);
-      this.totalVottingPoints.tecnologyPoint.push(point.tecnologyPoint);
-      this.totalVottingPoints.riskPoint.push(point.riskPoint);
-      this.totalVottingPoints.scopePoint.push(point.scopePoint);
-      this.totalVottingPoints.experiencePoint.push(point.experiencePoint);
-      this.totalVottingPoints.dependencePoint.push(point.dependencePoint);
-      this.totalVottingPoints.testPoint.push(point.testPoint);
-
-      total += point.dependencePoint;
-      total += point.integrationPoint;
-      total += point.functionalityPoint;
-      total += point.tecnologyPoint;
-      total += point.riskPoint;
-      total += point.scopePoint;
-      total += point.experiencePoint;
-      total += point.testPoint;
-    });
-
-    this.totalPoints = 0;
-    this.totalPoints += this.mostCommonValue(
-      this.totalVottingPoints.dependencePoint
-    );
-    this.totalPoints += this.mostCommonValue(
-      this.totalVottingPoints.functionalityPoint
-    );
-    this.totalPoints += this.mostCommonValue(
-      this.totalVottingPoints.tecnologyPoint
-    );
-    this.totalPoints += this.mostCommonValue(this.totalVottingPoints.riskPoint);
-    this.totalPoints += this.mostCommonValue(
-      this.totalVottingPoints.scopePoint
-    );
-    this.totalPoints += this.mostCommonValue(
-      this.totalVottingPoints.experiencePoint
-    );
-    this.totalPoints += this.mostCommonValue(this.totalVottingPoints.testPoint);
-    this.totalPoints += this.mostCommonValue(
-      this.totalVottingPoints.integrationPoint
-    );
-
-    this.midPoints = Math.trunc(total / this.totalVotes);
-
-    if (this.totalPoints <= 8) {
-      this.tshirt = 'P';
-    } else if (this.totalPoints <= 15) {
-      this.tshirt = 'M';
-    } else {
-      this.tshirt = 'G';
-    }
-  }
-
-  mostCommonValue(arr: any): number {
-    const counts = arr.reduce(
-      (acc: { [x: string]: any }, num: string | number) => {
-        acc[num] = (acc[num] || 0) + 1;
-        return acc;
-      },
-      {} as { [key: number]: number }
-    );
-
-    return Object.keys(counts).reduce((mostCommon, num) => {
-      if (counts[Number(num)] > counts[mostCommon]) {
-        return Number(num);
-      } else if (counts[Number(num)] === counts[mostCommon]) {
-        return Math.max(Number(num), mostCommon);
-      } else {
-        return mostCommon;
-      }
-    }, Number(Object.keys(counts)[0]));
   }
 
   receiveFunctionalityPoint(point: any) {

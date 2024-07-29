@@ -141,39 +141,22 @@
     </po-step>
   </po-stepper>
   } @else {
-  <h1>Votação - {{ id }}</h1>
-
-  <po-container>
-    <h2>Totalizadores</h2>
-    <po-widget class="po-xl-3 po-lg-3 po-md-3 po-sm-12"
-      ><h3>Total de Votantes:</h3>
-      <br />
-      <span class="widget-point">{{ totalVotes }}</span>
-    </po-widget>
-    <po-widget class="po-xl-3 po-lg-3 po-md-3 po-sm-12"
-      ><h3>Pontuação Total:</h3>
-      <br />
-      <span class="widget-point">{{ totalPoints }}</span></po-widget
-    >
-    <po-widget class="po-xl-3 po-lg-3 po-md-3 po-sm-12"
-      ><h3>Média:</h3>
-      <br /><span class="widget-point">{{ midPoints }}</span></po-widget
-    >
-    <po-widget class="po-xl-3 po-lg-3 po-md-3 po-sm-12"
-      ><h3>Tamanho da Camisa:</h3>
-      <br /><span class="widget-point">{{ tshirt }}</span></po-widget
-    >
-  </po-container>
-  <h2>Participantes</h2>
-
-  <po-table [p-columns]="columns" [p-items]="items"> </po-table>
+  <app-totalVoting [id]="id"></app-totalVoting>
   <div class="po-row po-mt-2">
     <po-button
-      class="po-xl-12 po-lg-12 po-md-12 po-sm-12"
+      class="po-xl-6 po-lg-6 po-md-6 po-sm-6"
       p-label="Finalizar"
       (p-click)="finish()"
+    ></po-button>
+    <po-button
+      class="po-xl-6 po-lg-6 po-md-6 po-sm-6"
+      p-label="Abrir Resultado"
+      (p-click)="showPoints()"
     ></po-button>
   </div>
 
   }
+  <po-modal p-title="Votação">
+    <app-totalVoting [id]="id"></app-totalVoting>
+  </po-modal>
 </po-page-default>
