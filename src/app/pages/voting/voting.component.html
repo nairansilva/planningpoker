@@ -8,6 +8,7 @@
       "
     >
       <app-voteThread
+        [resetVotes]="resetVotes"
         title="Funcionalidade"
         description="Pontuação atribuída com base na complexidade das funcionalidades da tarefa E REGRA DE NEGÓCIO."
         [pointDescription]="[
@@ -25,6 +26,7 @@
       "
     >
       <app-voteThread
+        [resetVotes]="resetVotes"
         title="Integrações"
         description="Pontuação atribuída com base na complexidade das integrações necessárias com outros sistemas ou serviços."
         [pointDescription]="[
@@ -41,6 +43,7 @@
       [p-can-active-next-step]="canActiveNextStep.bind(this, 'tecnologyPoint')"
     >
       <app-voteThread
+        [resetVotes]="resetVotes"
         title="Tecnologia"
         description="Pontuação atribuída com base no grau de familiaridade da equipe com as tecnologias utilizadas no desenvovimento da demanda."
         [pointDescription]="[
@@ -57,6 +60,7 @@
       [p-can-active-next-step]="canActiveNextStep.bind(this, 'riskPoint')"
     >
       <app-voteThread
+        [resetVotes]="resetVotes"
         title="Riscos"
         description="A probabilidade e o impacto de algo dar errado durante a execução da tarefa."
         [pointDescription]="[
@@ -76,6 +80,7 @@
       [p-can-active-next-step]="canActiveNextStep.bind(this, 'scopePoint')"
     >
       <app-voteThread
+        [resetVotes]="resetVotes"
         title="Escopo"
         description="Existe clareza no que está sendo pedido na demanda? Os requisitos estão claros?"
         [pointDescription]="[
@@ -92,6 +97,7 @@
       [p-can-active-next-step]="canActiveNextStep.bind(this, 'experiencePoint')"
     >
       <app-voteThread
+        [resetVotes]="resetVotes"
         title="Experiência do time"
         description="Pontuação atribuída com base na experiência da equipe com tarefas semelhantes."
         [pointDescription]="[
@@ -108,6 +114,7 @@
       [p-can-active-next-step]="canActiveNextStep.bind(this, 'dependencePoint')"
     >
       <app-voteThread
+        [resetVotes]="resetVotes"
         title="Dependências"
         description="Pontuação atribuída com base na quantidade e complexidade das dependências externas que podem impactar a tarefa."
         [pointDescription]="[
@@ -124,6 +131,7 @@
       [p-can-active-next-step]="canActiveNextStep.bind(this, 'testPoint')"
     >
       <app-voteThread
+        [resetVotes]="resetVotes"
         title="Testes"
         description="Pontuação atribuída com base na experiência da equipe com tarefas semelhantes."
         [pointDescription]="[

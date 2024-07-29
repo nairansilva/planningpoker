@@ -2,7 +2,9 @@ import {
   Component,
   EventEmitter,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild,
   output,
 } from '@angular/core';
@@ -13,10 +15,12 @@ import { PoModalComponent } from '@po-ui/ng-components';
   templateUrl: './voteThread.component.html',
   styleUrls: ['./voteThread.component.css'],
 })
-export class VoteThreadComponent implements OnInit {
+export class VoteThreadComponent implements OnInit, OnChanges {
   @Input() title: string = '';
   @Input() description: string = '';
   @Input() pointDescription: any[] = [{ point: '' }];
+  @Input() resetVotes: any;
+
   @ViewChild('detailsModal', { static: true })
   detailsModalElement: PoModalComponent;
   styleCard = 'po-lg-4 po-mt-2';
@@ -31,6 +35,12 @@ export class VoteThreadComponent implements OnInit {
   ngOnInit() {
     if (this.pointDescription.length > 3) {
       this.styleCard = 'po-lg-3 po-mt-2';
+    }
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['resetVotes']) {
+      this.selected = '-1';
     }
   }
 
