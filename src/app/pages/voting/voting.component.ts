@@ -198,7 +198,7 @@ export class VotingComponent implements OnInit, OnDestroy {
 
       {
         property: 'icons',
-        label: 'Actions',
+        label: 'Ações',
         type: 'icon',
         sortable: false,
         icons: [

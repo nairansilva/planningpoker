@@ -63,7 +63,7 @@ export class AdminPlanningComponent implements OnInit {
       },
       {
         property: 'icons',
-        label: 'Actions',
+        label: 'Ações',
         type: 'icon',
         sortable: false,
         icons: [
