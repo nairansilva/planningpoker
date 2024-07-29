@@ -12,10 +12,10 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { getStorage, provideStorage } from '@angular/fire/storage';
-import { environment } from '../environments/environment.development';
 import { AdminPlanningComponent } from './pages/adminPlanning/adminPlanning.component';
 import { AngularFireModule } from '@angular/fire/compat';
 import { VoteThreadComponent } from './pages/voting/voteThread/voteThread.component';
+import { environment } from '../environments/environment';
 
 @NgModule({
   declarations: [

@@ -1,9 +1,14 @@
 import { UtilsService } from './../../shared/services/utils.service';
+import { VotingPointsInterface } from './shared/interfaces/voting.model';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FirestoreService } from './../../shared/services/fire-store.service';
 import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { Subscription } from 'rxjs';
-import { PoStepperComponent, PoTableColumn } from '@po-ui/ng-components';
+import {
+  PoStepperComponent,
+  PoTableColumn,
+  PoNotificationService,
+} from '@po-ui/ng-components';
 
 @Component({
   selector: 'app-voting',
@@ -19,6 +24,17 @@ export class VotingComponent implements OnInit, OnDestroy {
   refreshTime: Date;
   startOpen = true;
   idVotting = '';
+
+  totalVottingPoints = {
+    functionalityPoint: [0],
+    integrationPoint: [0],
+    tecnologyPoint: [0],
+    riskPoint: [0],
+    scopePoint: [0],
+    experiencePoint: [0],
+    dependencePoint: [0],
+    testPoint: [0],
+  };
 
   functionalityPoint = 0;
   integrationPoint = 0;
@@ -37,12 +53,14 @@ export class VotingComponent implements OnInit, OnDestroy {
   totalVotes = 0;
   totalPoints = 0;
   tshirt = 'P';
+  midPoints = 0;
 
   constructor(
     private firestoreService: FirestoreService,
     private route: ActivatedRoute,
     private utilsService: UtilsService,
-    private router: Router
+    private router: Router,
+    private poNotificationService: PoNotificationService
   ) {
     if (this.utilsService.getUser() == '') {
       this.router.navigate(['/login']);
@@ -51,8 +69,12 @@ export class VotingComponent implements OnInit, OnDestroy {
     this.columns = this.buildColumns();
   }
   ngOnDestroy(): void {
-    this.getRecordByIdStartWith.unsubscribe();
-    this.getRecordById.unsubscribe();
+    if (this.getRecordByIdStartWith) {
+      this.getRecordByIdStartWith.unsubscribe();
+    }
+    if (this.getRecordById) {
+      this.getRecordById.unsubscribe();
+    }
   }
 
   ngOnInit() {
@@ -73,8 +95,9 @@ export class VotingComponent implements OnInit, OnDestroy {
                 this.poStepperComponent.first();
               }
 
-              if ((this.refreshTime = res.refresh)) {
+              if (this.refreshTime != res.refresh) {
                 this.updatePoints();
+                this.poNotificationService.success('Votação Resetada');
               }
             } else {
               this.startOpen = false;
@@ -100,19 +123,18 @@ export class VotingComponent implements OnInit, OnDestroy {
           });
 
           this.totalVotes = res.length;
-          console.log(res);
+          this.calPlanning(res);
         },
       });
   }
 
   totalize() {
     this.firestoreService
-      .updateDoc('planning', this.id, { refresh: new Date() })
+      .updateDoc('planning', this.id, { tshirt: this.tshirt })
       .then();
   }
 
   finish() {
-    console.log(this.items);
     const restForm = {
       functionalityPoint: 0,
       integrationPoint: 0,
@@ -164,14 +186,16 @@ export class VotingComponent implements OnInit, OnDestroy {
   buildColumns() {
     return (this.columns = [
       { property: 'id' },
-      { property: 'name', type: 'string', label: 'name', width: '8%' },
+      { property: 'name', type: 'string', label: 'Paticipante', width: '8%' },
       { property: 'functionalityPoint', label: 'Funcionalidade' },
+      { property: 'integrationPoint', label: 'Integração' },
       { property: 'tecnologyPoint', label: 'Tecnologia' },
       { property: 'riskPoint', label: 'Risco' },
       { property: 'scopePoint', label: 'Escopo' },
       { property: 'experiencePoint', label: 'Experiência' },
       { property: 'dependencePoint', label: 'Dependência' },
       { property: 'testPoint', label: 'Testes' },
+
       {
         property: 'icons',
         label: 'Actions',
@@ -187,6 +211,101 @@ export class VotingComponent implements OnInit, OnDestroy {
         ],
       },
     ]);
+  }
+
+  calPlanning(points: any) {
+    // (Object.keys(this.totalVottingPoints) as Array<keyof VotingPoints>).forEach(
+    //   (prop) => {
+    //     this.totalVottingPoints[prop] = 0;
+    //   }
+    // );
+
+    this.totalVottingPoints = {
+      functionalityPoint: [-1],
+      integrationPoint: [-1],
+      tecnologyPoint: [-1],
+      riskPoint: [-1],
+      scopePoint: [-1],
+      experiencePoint: [-1],
+      dependencePoint: [-1],
+      testPoint: [-1],
+    };
+
+    console.log(points);
+    console.log('Troquei os números');
+
+    let total = 0;
+    points.map((point: VotingPointsInterface) => {
+      this.totalVottingPoints.functionalityPoint.push(point.functionalityPoint);
+      this.totalVottingPoints.integrationPoint.push(point.integrationPoint);
+      this.totalVottingPoints.tecnologyPoint.push(point.tecnologyPoint);
+      this.totalVottingPoints.riskPoint.push(point.riskPoint);
+      this.totalVottingPoints.scopePoint.push(point.scopePoint);
+      this.totalVottingPoints.experiencePoint.push(point.experiencePoint);
+      this.totalVottingPoints.dependencePoint.push(point.dependencePoint);
+      this.totalVottingPoints.testPoint.push(point.testPoint);
+
+      total += point.dependencePoint;
+      total += point.integrationPoint;
+      total += point.functionalityPoint;
+      total += point.tecnologyPoint;
+      total += point.riskPoint;
+      total += point.scopePoint;
+      total += point.experiencePoint;
+      total += point.testPoint;
+    });
+
+    this.totalPoints = 0;
+    this.totalPoints += this.mostCommonValue(
+      this.totalVottingPoints.dependencePoint
+    );
+    this.totalPoints += this.mostCommonValue(
+      this.totalVottingPoints.functionalityPoint
+    );
+    this.totalPoints += this.mostCommonValue(
+      this.totalVottingPoints.tecnologyPoint
+    );
+    this.totalPoints += this.mostCommonValue(this.totalVottingPoints.riskPoint);
+    this.totalPoints += this.mostCommonValue(
+      this.totalVottingPoints.scopePoint
+    );
+    this.totalPoints += this.mostCommonValue(
+      this.totalVottingPoints.experiencePoint
+    );
+    this.totalPoints += this.mostCommonValue(this.totalVottingPoints.testPoint);
+    this.totalPoints += this.mostCommonValue(
+      this.totalVottingPoints.integrationPoint
+    );
+
+    this.midPoints = Math.trunc(total / this.totalVotes);
+
+    if (this.totalPoints <= 8) {
+      this.tshirt = 'P';
+    } else if (this.totalPoints <= 15) {
+      this.tshirt = 'M';
+    } else {
+      this.tshirt = 'G';
+    }
+  }
+
+  mostCommonValue(arr: any): number {
+    const counts = arr.reduce(
+      (acc: { [x: string]: any }, num: string | number) => {
+        acc[num] = (acc[num] || 0) + 1;
+        return acc;
+      },
+      {} as { [key: number]: number }
+    );
+
+    return Object.keys(counts).reduce((mostCommon, num) => {
+      if (counts[Number(num)] > counts[mostCommon]) {
+        return Number(num);
+      } else if (counts[Number(num)] === counts[mostCommon]) {
+        return Math.max(Number(num), mostCommon);
+      } else {
+        return mostCommon;
+      }
+    }, Number(Object.keys(counts)[0]));
   }
 
   receiveFunctionalityPoint(point: any) {
@@ -226,6 +345,8 @@ export class VotingComponent implements OnInit, OnDestroy {
 
   receiveTestPoint(point: any) {
     this.testPoint = point;
+    this.updatePoints();
+    this.poNotificationService.success('Votos Computados');
   }
 
   deleteVote(line: any) {

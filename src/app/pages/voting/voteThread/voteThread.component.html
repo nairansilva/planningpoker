@@ -10,30 +10,14 @@
   </ul>
 </po-container>
 
-<!-- <div class="po-row">
-  <po-widget
-    [p-primary]="point[0]"
-    (p-click)="selectPoint([true, false, false], 1)"
-    >1</po-widget
-  >
-  <po-widget
-    [p-primary]="point[1]"
-    (p-click)="selectPoint([false, true, false], 2)"
-    >2</po-widget
-  >
-  <po-widget
-    [p-primary]="point[2]"
-    (p-click)="selectPoint([false, false, true], 3)"
-    >3</po-widget
-  >
-</div> -->
-
 <div class="po-row">
   @for (item of pointDescription; track item.point) {
   <po-widget
+    [ngClass]="styleCard"
     [p-primary]="item.point.substr(0, 1) == selected"
     (p-click)="selectPoint(item.point.substr(0, 1))"
-    >{{ item.point.substr(0, 1) }}</po-widget
   >
+    <span class="highlighted-number">{{ item.point.substr(0, 1) }}</span>
+  </po-widget>
   }
 </div>

@@ -9,38 +9,50 @@
       />
     </div>
     <form [formGroup]="loginForm">
-      <po-input
-        name="input"
-        p-label="Nome"
-        p-help="Informe um Nome de Usuário"
-        formControlName="name"
-      >
-      </po-input>
-      <po-combo
-        name="sala"
-        p-label="Sala"
-        p-help="Selecione a sala que deseja participar"
-        formControlName="room"
-        [p-options]="rooms"
-      >
-      </po-combo>
-      <po-combo
-        name="person"
-        p-label="Perfil"
-        p-help="Selecione admin ou participante"
-        formControlName="person"
-        [p-options]="[
-          { value: '1', label: 'Parcipante' },
-          { value: '2', label: 'Admin' }
-        ]"
-      >
-      </po-combo>
-      <po-button
-        p-label="Entrar"
-        (p-click)="login()"
-        [p-disabled]="!this.loginForm.valid"
-      >
-      </po-button>
+      <div class="po-row">
+        <po-input
+          class="po-xl-12 po-lg-12 po-md-12 po-sm-12"
+          name="input"
+          p-label="Nome"
+          p-help="Informe um Nome de Usuário"
+          formControlName="name"
+        >
+        </po-input>
+      </div>
+      <div class="po-row">
+        <po-combo
+          class="po-xl-12 po-lg-12 po-md-12 po-sm-12"
+          name="sala"
+          p-label="Sala"
+          p-help="Selecione a sala que deseja participar"
+          formControlName="room"
+          [p-options]="rooms"
+        >
+        </po-combo>
+      </div>
+      <div class="po-row">
+        <po-combo
+          class="po-xl-12 po-lg-12 po-md-12 po-sm-12"
+          name="person"
+          p-label="Perfil"
+          p-help="Selecione admin ou participante"
+          formControlName="person"
+          [p-options]="[
+            { value: '1', label: 'Parcipante' },
+            { value: '2', label: 'Admin' }
+          ]"
+        >
+        </po-combo>
+      </div>
+      <div class="po-row">
+        <po-button
+          class="po-xl-12 po-lg-12 po-md-12 po-sm-12 po-mt-2"
+          p-label="Entrar"
+          (p-click)="login()"
+          [p-disabled]="!this.loginForm.valid"
+        >
+        </po-button>
+      </div>
     </form>
   </po-widget>
 </po-page-default>

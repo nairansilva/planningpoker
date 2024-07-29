@@ -1,0 +1,56 @@
+/* Estilo para o título */
+h1 {
+  font-size: 2.5em;
+  color: #333;
+  text-align: center;
+  margin-bottom: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Estilo para a descrição */
+p {
+  font-size: 1.2em;
+  color: #666;
+  text-align: justify;
+  margin-bottom: 1.5em;
+}
+
+/* Estilo para a lista */
+ul {
+  list-style-type: none; /* Remove os pontos das listas */
+  padding: 0;
+}
+
+ul li {
+  font-family: "Verdana", sans-serif;
+  font-size: 1em;
+  color: #444;
+  background: #f9f9f9;
+  padding: 0.5em;
+  margin-bottom: 0.5em;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+/* Adiciona um espaçamento entre os itens da lista */
+ul li:not(:last-child) {
+  margin-bottom: 1em;
+}
+
+po-widget {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-direction: column;
+  padding: 1em;
+}
+
+/* Estilo para o número em destaque */
+po-widget .highlighted-number {
+  color: rgb(12, 12, 12);
+  font-size: 30px;
+  font-weight: bold;
+}

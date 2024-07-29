@@ -32,8 +32,9 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "./node_modules/@po-ui/style/css/po-theme-default.min.css",
-              "src/styles.scss"
+              "node_modules/@totvs/po-theme/css/po-theme-default-variables.min.css",
+              "node_modules/@totvs/po-theme/css/po-theme-default.min.css",
+              "node_modules/@po-ui/style/css/po-theme-core.min.css"
             ],
             "scripts": []
           },
@@ -42,13 +43,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "10mb",
+                  "maximumError": "10mb"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "2kb",
-                  "maximumError": "4kb"
+                  "maximumWarning": "10mb",
+                  "maximumError": "10mb"
                 }
               ],
               "outputHashing": "all"
@@ -93,8 +94,9 @@
             "inlineStyleLanguage": "scss",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "./node_modules/@po-ui/style/css/po-theme-default.min.css",
-              "src/styles.scss"
+              "node_modules/@totvs/po-theme/css/po-theme-default-variables.min.css",
+              "node_modules/@totvs/po-theme/css/po-theme-default.min.css",
+              "node_modules/@po-ui/style/css/po-theme-core.min.css"
             ],
             "scripts": []
           }
