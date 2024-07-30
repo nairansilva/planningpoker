@@ -40,12 +40,14 @@
         >
         </po-combo>
       </div>
-      <po-button
-        p-label="Adicionar"
-        (p-click)="newPlanning()"
-        [p-disabled]="!this.adminForm.valid"
-      >
-      </po-button>
+      <div class="po-row">
+        <po-button
+          p-label="Adicionar"
+          (p-click)="newPlanning()"
+          [p-disabled]="!this.adminForm.valid"
+        >
+        </po-button>
+      </div>
     </form>
   </po-widget>
 
