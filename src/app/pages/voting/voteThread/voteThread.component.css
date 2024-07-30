@@ -55,3 +55,18 @@ po-widget .highlighted-number {
   font-size: 30px;
   font-weight: bold;
 }
+
+ul li:hover {
+  cursor: pointer;
+  color: #f0f0f0;
+  background: #045b8f;
+  font-weight: bold;
+  border: 2px solid black; /* Borda preta destacada */
+}
+
+ul li.selected {
+  font-weight: bold;
+  color: #f0f0f0;
+  background: #045b8f;
+  border: 2px solid black; /* Borda preta destacada */
+}

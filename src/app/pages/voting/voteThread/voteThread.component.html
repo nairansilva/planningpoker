@@ -5,12 +5,17 @@
   </p>
   <ul>
     @for (item of pointDescription; track item.point) {
-    <li>{{ item?.point }}</li>
+    <li
+      [ngClass]="{ selected: item.point.substr(0, 1) == selected }"
+      (click)="selectPoint(item.point.substr(0, 1))"
+    >
+      {{ item?.point }}
+    </li>
     }
   </ul>
 </po-container>
 
-<div class="po-row">
+<!-- <div class="po-row">
   @for (item of pointDescription; track item.point) {
   <po-widget
     [ngClass]="styleCard"
@@ -20,4 +25,4 @@
     <span class="highlighted-number">{{ item.point.substr(0, 1) }}</span>
   </po-widget>
   }
-</div>
+</div> -->
