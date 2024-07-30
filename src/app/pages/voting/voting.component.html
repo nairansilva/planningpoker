@@ -1,5 +1,5 @@
 <po-page-default>
-  @if (type === '1') {
+  @if (!isAdmin) { @if(type == '2'){
   <po-stepper>
     <po-step
       p-label="Funcionalidade"
@@ -149,7 +149,9 @@
     </po-step>
   </po-stepper>
   } @else {
-  <app-totalVoting [id]="id"></app-totalVoting>
+  <app-simpleVoting></app-simpleVoting>
+  } } @else {
+  <app-totalVoting [id]="id" [type]="type"></app-totalVoting>
   <div class="po-row po-mt-2">
     <po-button
       class="po-xl-6 po-lg-6 po-md-6 po-sm-6"
@@ -165,6 +167,6 @@
 
   }
   <po-modal p-title="Votação">
-    <app-totalVoting [id]="id" [type]="type"></app-totalVoting>
+    <app-totalVoting [id]="id" [isAdmin]="isAdmin"></app-totalVoting>
   </po-modal>
 </po-page-default>

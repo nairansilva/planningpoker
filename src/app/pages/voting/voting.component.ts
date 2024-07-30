@@ -22,6 +22,7 @@ export class VotingComponent implements OnInit, OnDestroy {
 
   id: string;
   type: string;
+  isAdmin: boolean;
   resetVotes: any;
   refreshTime: any;
   changeTshirt: string = '';
@@ -30,14 +31,14 @@ export class VotingComponent implements OnInit, OnDestroy {
 
   showTotal = false;
 
-  functionalityPoint = -1;
-  integrationPoint = -1;
-  tecnologyPoint = -1;
-  riskPoint = -1;
-  scopePoint = -1;
-  experiencePoint = -1;
-  dependencePoint = -1;
-  testPoint = -1;
+  functionalityPoint = 0;
+  integrationPoint = 0;
+  tecnologyPoint = 0;
+  riskPoint = 0;
+  scopePoint = 0;
+  experiencePoint = 0;
+  dependencePoint = 0;
+  testPoint = 0;
 
   getRecordById: Subscription;
 
@@ -64,13 +65,19 @@ export class VotingComponent implements OnInit, OnDestroy {
     this.route.params.subscribe((params) => {
       this.id = params['id'];
       this.type = params['type'];
+
+      if (this.utilsService.getUser().toLocaleLowerCase() === 'admin') {
+        this.isAdmin = true;
+      } else {
+        this.isAdmin = false;
+      }
     });
 
     this.initializeVotes();
   }
 
   initializeVotes() {
-    if (this.type === '1') {
+    if (!this.isAdmin) {
       this.getRecordById = this.firestoreService
         .getRecordById('planning', this.id)
         .subscribe({
@@ -173,14 +180,14 @@ export class VotingComponent implements OnInit, OnDestroy {
   }
 
   resetForm() {
-    this.functionalityPoint = -1;
-    this.integrationPoint = -1;
-    this.tecnologyPoint = -1;
-    this.riskPoint = -1;
-    this.scopePoint = -1;
-    this.experiencePoint = -1;
-    this.dependencePoint = -1;
-    this.testPoint = -1;
+    this.functionalityPoint = 0;
+    this.integrationPoint = 0;
+    this.tecnologyPoint = 0;
+    this.riskPoint = 0;
+    this.scopePoint = 0;
+    this.experiencePoint = 0;
+    this.dependencePoint = 0;
+    this.testPoint = 0;
   }
 
   canActiveNextStep(value: string): boolean {
@@ -189,37 +196,38 @@ export class VotingComponent implements OnInit, OnDestroy {
 
   receiveFunctionalityPoint(point: any) {
     this.functionalityPoint = point;
-    this.poStepperComponent.next();
+    this.updatePoints();
   }
 
   receiveIntegrationPoint(point: any) {
     this.integrationPoint = point;
-    this.poStepperComponent.next();
+    this.updatePoints();
   }
 
   receiveTecnologyPoint(point: any) {
     this.tecnologyPoint = point;
-    this.poStepperComponent.next();
+    this.updatePoints();
   }
 
   receiveRiskPoint(point: any) {
     this.riskPoint = point;
-    this.poStepperComponent.next();
+    this.updatePoints();
   }
 
   receiveScopePoint(point: any) {
     this.scopePoint = point;
-    this.poStepperComponent.next();
+    this.updatePoints();
   }
 
   receiveExperiencePoint(point: any) {
     this.experiencePoint = point;
-    this.poStepperComponent.next();
+    this.updatePoints();
   }
 
   receiveDependencePoint(point: any) {
     this.dependencePoint = point;
-    this.poStepperComponent.next();
+    this.updatePoints();
+    // this.poStepperComponent.next();
   }
 
   receiveTestPoint(point: any) {

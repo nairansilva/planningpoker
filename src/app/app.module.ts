@@ -17,6 +17,7 @@ import { AngularFireModule } from '@angular/fire/compat';
 import { VoteThreadComponent } from './pages/voting/voteThread/voteThread.component';
 import { environment } from '../environments/environment';
 import { TotalVotingComponent } from './pages/voting/totalVoting/totalVoting.component';
+import { SimpleVotingComponent } from './pages/voting/simpleVoting/simpleVoting.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { TotalVotingComponent } from './pages/voting/totalVoting/totalVoting.com
     AdminPlanningComponent,
     VoteThreadComponent,
     TotalVotingComponent,
+    SimpleVotingComponent,
   ],
   imports: [
     BrowserModule,

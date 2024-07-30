@@ -35,6 +35,7 @@ export class AdminPlanningComponent implements OnInit {
       id: [''],
       name: ['', Validators.required],
       squad: ['', Validators.required],
+      type: ['2', Validators.required],
       status: [1],
       date: [new Date()],
       refresh: [new Date()],
@@ -52,6 +53,7 @@ export class AdminPlanningComponent implements OnInit {
       { property: 'id', type: 'string', label: 'ID', width: '8%' },
       { property: 'name', label: 'Nome' },
       { property: 'squad', label: 'Squad' },
+      { property: 'type', label: 'Tipo' },
       { property: 'dateFormated', label: 'Data de Criação' },
       {
         property: 'status',

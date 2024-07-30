@@ -1,4 +1,11 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  input,
+} from '@angular/core';
 import { PoTableColumn } from '@po-ui/ng-components';
 import { FirestoreService } from '../../../shared/services/fire-store.service';
 import { Subscription } from 'rxjs';
@@ -11,7 +18,8 @@ import { VotingPointsInterface } from '../shared/interfaces/voting.model';
 })
 export class TotalVotingComponent implements OnInit {
   @Input() id = '';
-  @Input() type: string;
+  @Input() isAdmin = true;
+  @Input() type = '2';
 
   columns: PoTableColumn[];
   items: any;
@@ -19,6 +27,7 @@ export class TotalVotingComponent implements OnInit {
   totalPoints = 0;
   tshirt = 'P';
   midPoints = 0;
+  disabledDelete = true;
 
   getRecordByIdStartWith: Subscription;
   totalVotingPoints = {
@@ -201,6 +210,6 @@ export class TotalVotingComponent implements OnInit {
   }
 
   validDisableIcons() {
-    return this.type === '1';
+    return !this.isAdmin;
   }
 }

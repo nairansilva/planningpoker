@@ -13,7 +13,7 @@ import { PoNotificationService } from '@po-ui/ng-components';
 })
 export class LoginComponent implements OnInit {
   loginForm: FormGroup;
-  rooms: Array<PoSelectOption> = [];
+  rooms: Array<any> = [];
 
   constructor(
     private fb: FormBuilder,
@@ -27,7 +27,7 @@ export class LoginComponent implements OnInit {
       id: [''],
       name: ['', Validators.required],
       room: ['', Validators.required],
-      person: ['', Validators.required],
+      person: ['1', Validators.required],
     });
     this.getItems();
   }
@@ -35,12 +35,17 @@ export class LoginComponent implements OnInit {
   ngOnInit() {}
 
   login() {
+    const type = this.rooms.filter((item) => {
+      console.log(item);
+      return item.value === this.loginForm.value['room'];
+    });
+    console.log(type);
     if (this.loginForm.valid) {
       this.utilsService.setUser(this.loginForm.value['name']);
       this.router.navigate([
         '/voting',
         this.loginForm.value['room'],
-        this.loginForm.value['person'],
+        type[0].type,
       ]);
     } else {
       this.poNotificationService.warning('Informe o nome de usuário e senha');
@@ -63,6 +68,7 @@ export class LoginComponent implements OnInit {
           this.rooms = this.rooms.concat({
             label: plannings.name,
             value: plannings.id,
+            type: plannings.type,
           });
         });
       });

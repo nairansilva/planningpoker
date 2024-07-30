@@ -11,7 +11,7 @@ export class UtilsService {
     this.userName = user;
   }
 
-  getUser() {
+  getUser(): string {
     return this.userName;
   }
 }
