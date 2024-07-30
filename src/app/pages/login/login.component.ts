@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
       this.router.navigate([
         '/voting',
         this.loginForm.value['room'],
-        type[0].type,
+        type[0].type ? type[0].type : '2',
       ]);
     } else {
       this.poNotificationService.warning('Informe o nome de usuário e senha');

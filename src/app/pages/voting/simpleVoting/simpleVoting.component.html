@@ -1,3 +1,25 @@
-<p>
-  simpleVoting works!
-</p>
+<h1>Votação</h1>
+<br />
+<po-container>
+  <po-widget
+    class="po-xl-4 po-lg-4 po-md-4 po-sm-4"
+    [p-primary]="selected === 1"
+    (p-click)="selectTshirt(1, 0)"
+  >
+    <span class="highlighted-number">P</span>
+  </po-widget>
+  <po-widget
+    class="po-xl-4 po-lg-4 po-md-4 po-sm-4"
+    [p-primary]="selected === 2"
+    (p-click)="selectTshirt(2, 12)"
+  >
+    <span class="highlighted-number">M</span>
+  </po-widget>
+  <po-widget
+    class="po-xl-4 po-lg-4 po-md-4 po-sm-4"
+    [p-primary]="selected === 3"
+    (p-click)="selectTshirt(3, 20)"
+  >
+    <span class="highlighted-number">G</span>
+  </po-widget>
+</po-container>

@@ -149,7 +149,7 @@
     </po-step>
   </po-stepper>
   } @else {
-  <app-simpleVoting></app-simpleVoting>
+  <app-simpleVoting (cardPoint)="receiveSimpleVote($event)"></app-simpleVoting>
   } } @else {
   <app-totalVoting [id]="id" [type]="type"></app-totalVoting>
   <div class="po-row po-mt-2">
@@ -167,6 +167,10 @@
 
   }
   <po-modal p-title="Votação">
-    <app-totalVoting [id]="id" [isAdmin]="isAdmin"></app-totalVoting>
+    <app-totalVoting
+      [id]="id"
+      [isAdmin]="isAdmin"
+      [type]="type"
+    ></app-totalVoting>
   </po-modal>
 </po-page-default>

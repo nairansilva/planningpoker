@@ -1,0 +1,54 @@
+/* Estilo para o título principal */
+h1 {
+  font-family: "NunitoSans-ExtraLight", sans-serif;
+  font-size: 2.5em;
+  color: #333;
+  text-align: center;
+  margin-bottom: 0.5em;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+/* Estilo para o título secundário */
+h2 {
+  font-family: "NunitoSans-ExtraLight", sans-serif;
+  font-size: 2em;
+  color: #555;
+  text-align: center;
+  margin-top: 1.5em;
+  margin-bottom: 1em;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+/* Estilo para os widgets */
+po-widget {
+  text-align: center;
+}
+
+/* Estilo para o conteúdo dos widgets */
+po-widget h3 {
+  font-size: 5.5em;
+  color: #444;
+}
+
+po-widget h3 {
+  text-align: center;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.widget-point {
+  margin-top: 2px;
+  color: rgb(12, 12, 148);
+  font-size: 45px;
+  font-weight: bold;
+}
+
+/* Estilo para o número em destaque */
+po-widget .highlighted-number {
+  margin-top: 10px;
+  color: rgb(12, 12, 12);
+  font-size: 30px;
+  font-weight: bold;
+}

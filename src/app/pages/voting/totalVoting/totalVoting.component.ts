@@ -41,15 +41,18 @@ export class TotalVotingComponent implements OnInit {
     testPoint: [0],
   };
 
-  constructor(private firestoreService: FirestoreService) {
-    this.columns = this.buildColumns();
-  }
+  constructor(private firestoreService: FirestoreService) {}
 
   ngOnInit() {
-    this.startAdmin();
+    this.startDetails();
+    if (this.type == '2') {
+      this.columns = this.buildColumnsDetails();
+    } else {
+      this.columns = this.buildColumnsSimple();
+    }
   }
 
-  startAdmin() {
+  startDetails() {
     this.getRecordByIdStartWith = this.firestoreService
       .getRecordByIdStartWith('planningVotes', this.id)
       .subscribe({
@@ -137,6 +140,10 @@ export class TotalVotingComponent implements OnInit {
     this.midPoints = Math.trunc(total / this.totalVotes);
 
     this.tshirt = this.calcTshirt(this.totalPoints);
+
+    if (this.type == '1') {
+      this.tshirt = this.calcTshirt(total / this.totalVotes);
+    }
   }
 
   calcTshirt(total: number): string {
@@ -172,7 +179,7 @@ export class TotalVotingComponent implements OnInit {
     }, Number(Object.keys(counts)[0]));
   }
 
-  buildColumns() {
+  buildColumnsDetails() {
     return (this.columns = [
       { property: 'id', visible: false },
       { property: 'name', type: 'string', label: 'Paticipante', width: '8%' },
@@ -185,6 +192,30 @@ export class TotalVotingComponent implements OnInit {
       { property: 'dependencePoint', label: 'Dependência' },
       { property: 'testPoint', label: 'Testes' },
       { property: 'totalPoints', label: 'Total' },
+      { property: 'tshirt', label: 'Camisa' },
+
+      {
+        property: 'icons',
+        label: 'Ações',
+        type: 'icon',
+        sortable: false,
+        icons: [
+          {
+            action: this.deleteVote.bind(this),
+            icon: 'po-icon-delete',
+            disabled: this.validDisableIcons.bind(this),
+            tooltip: 'Deletar',
+            value: 'delet',
+          },
+        ],
+      },
+    ]);
+  }
+
+  buildColumnsSimple() {
+    return (this.columns = [
+      { property: 'id', visible: false },
+      { property: 'name', type: 'string', label: 'Paticipante', width: '8%' },
       { property: 'tshirt', label: 'Camisa' },
 
       {

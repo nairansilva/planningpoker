@@ -197,41 +197,54 @@ export class VotingComponent implements OnInit, OnDestroy {
   receiveFunctionalityPoint(point: any) {
     this.functionalityPoint = point;
     this.updatePoints();
+    this.poStepperComponent.next();
   }
 
   receiveIntegrationPoint(point: any) {
     this.integrationPoint = point;
     this.updatePoints();
+    this.poStepperComponent.next();
   }
 
   receiveTecnologyPoint(point: any) {
     this.tecnologyPoint = point;
     this.updatePoints();
+    this.poStepperComponent.next();
   }
 
   receiveRiskPoint(point: any) {
     this.riskPoint = point;
     this.updatePoints();
+    this.poStepperComponent.next();
   }
 
   receiveScopePoint(point: any) {
     this.scopePoint = point;
     this.updatePoints();
+    this.poStepperComponent.next();
   }
 
   receiveExperiencePoint(point: any) {
     this.experiencePoint = point;
     this.updatePoints();
+    this.poStepperComponent.next();
   }
 
   receiveDependencePoint(point: any) {
     this.dependencePoint = point;
     this.updatePoints();
+    this.poStepperComponent.next();
     // this.poStepperComponent.next();
   }
 
   receiveTestPoint(point: any) {
     this.testPoint = point;
+    this.updatePoints();
+    this.poNotificationService.success('Votos Computados');
+  }
+
+  receiveSimpleVote(point: any) {
+    this.functionalityPoint = point;
     this.updatePoints();
     this.poNotificationService.success('Votos Computados');
   }
