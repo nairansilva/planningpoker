@@ -20,6 +20,8 @@ export class VoteThreadComponent implements OnInit, OnChanges {
   @Input() description: string = '';
   @Input() pointDescription: any[] = [{ point: '' }];
   @Input() resetVotes: any;
+  @Input() totalVotes = -1;
+  @Input() midVotes = -1;
 
   @ViewChild('detailsModal', { static: true })
   detailsModalElement: PoModalComponent;

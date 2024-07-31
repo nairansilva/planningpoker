@@ -14,7 +14,25 @@
     }
   </ul>
 </po-container>
+<div class="po-row po-offset-lg-2 po-offset-xl-2">
+  <po-widget [ngClass]="styleCard">
+    @if(totalVotes > 0){
+    <span class="highlighted-number">{{ totalVotes }}</span>
 
+    } @else {
+    <span class="highlighted-number">?</span>
+    }
+  </po-widget>
+  <po-widget [ngClass]="styleCard">
+    @if(totalVotes > 0){
+    <span class="highlighted-number">{{ midVotes }}</span>
+
+    } @else {
+
+    <span class="highlighted-number">?</span>
+    }
+  </po-widget>
+</div>
 <!-- <div class="po-row">
   @for (item of pointDescription; track item.point) {
   <po-widget

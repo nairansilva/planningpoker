@@ -1,6 +1,6 @@
 <po-page-default>
   @if (!isAdmin) { @if(type == '2'){
-  <po-stepper>
+  <po-stepper (p-change-step)="changeStepper($event)">
     <po-step
       p-label="Funcionalidade"
       [p-can-active-next-step]="
@@ -9,6 +9,8 @@
     >
       <app-voteThread
         [resetVotes]="resetVotes"
+        [totalVotes]="votesInfo?.totalFunctionalityPoint"
+        [midVotes]="votesInfo?.midFunctionalityPoint"
         title="Funcionalidade"
         description="Pontuação atribuída com base na complexidade das funcionalidades da tarefa E REGRA DE NEGÓCIO."
         [pointDescription]="[
@@ -27,6 +29,8 @@
     >
       <app-voteThread
         [resetVotes]="resetVotes"
+        [totalVotes]="votesInfo?.totalIntegrationPoint"
+        [midVotes]="votesInfo?.midIntegrationPoint"
         title="Integrações"
         description="Pontuação atribuída com base na complexidade das integrações necessárias com outros sistemas ou serviços."
         [pointDescription]="[
@@ -44,6 +48,8 @@
     >
       <app-voteThread
         [resetVotes]="resetVotes"
+        [totalVotes]="votesInfo?.totalTecnologyPoint"
+        [midVotes]="votesInfo?.midTecnologyPoint"
         title="Tecnologia"
         description="Pontuação atribuída com base no grau de familiaridade da equipe com as tecnologias utilizadas no desenvovimento da demanda."
         [pointDescription]="[
@@ -61,6 +67,8 @@
     >
       <app-voteThread
         [resetVotes]="resetVotes"
+        [totalVotes]="votesInfo?.totalRiskPointPoint"
+        [midVotes]="votesInfo?.midRiskPoint"
         title="Riscos"
         description="A probabilidade e o impacto de algo dar errado durante a execução da tarefa."
         [pointDescription]="[
@@ -81,6 +89,8 @@
     >
       <app-voteThread
         [resetVotes]="resetVotes"
+        [midVotes]="votesInfo?.midScopePoint"
+        [totalVotes]="votesInfo?.totalScopePointPoint"
         title="Escopo"
         description="Existe clareza no que está sendo pedido na demanda? Os requisitos estão claros?"
         [pointDescription]="[
@@ -98,6 +108,8 @@
     >
       <app-voteThread
         [resetVotes]="resetVotes"
+        [totalVotes]="votesInfo?.totalExperiencePoint"
+        [midVotes]="votesInfo?.midExperiencePoint"
         title="Experiência do time"
         description="Pontuação atribuída com base na experiência da equipe com tarefas semelhantes."
         [pointDescription]="[
@@ -115,6 +127,8 @@
     >
       <app-voteThread
         [resetVotes]="resetVotes"
+        [totalVotes]="votesInfo?.totalDependencePoint"
+        [midVotes]="votesInfo?.midDependencePoint"
         title="Dependências"
         description="Pontuação atribuída com base na quantidade e complexidade das dependências externas que podem impactar a tarefa."
         [pointDescription]="[
@@ -132,6 +146,8 @@
     >
       <app-voteThread
         [resetVotes]="resetVotes"
+        [totalVotes]="votesInfo?.totalTestPoint"
+        [midVotes]="votesInfo?.midTestPoint"
         title="Testes"
         description="Pontuação atribuída com base na experiência da equipe com tarefas semelhantes."
         [pointDescription]="[
@@ -148,20 +164,43 @@
       ></app-voteThread>
     </po-step>
   </po-stepper>
-  } @else {
-  <app-simpleVoting (cardPoint)="receiveSimpleVote($event)"></app-simpleVoting>
-  } } @else {
-  <app-totalVoting [id]="id" [type]="type"></app-totalVoting>
   <div class="po-row po-mt-2">
     <po-button
       class="po-xl-6 po-lg-6 po-md-6 po-sm-6"
+      p-label="Voltar"
+      [p-disabled]="stepLabel == 'Funcionalidade'"
+      (p-click)="backStep()"
+    ></po-button>
+    <po-button
+      class="po-xl-6 po-lg-6 po-md-6 po-sm-6"
+      p-label="Próximo"
+      [p-disabled]="stepLabel == 'Testes'"
+      (p-click)="nextStep()"
+    ></po-button>
+  </div>
+  } @else {
+  <app-simpleVoting (cardPoint)="receiveSimpleVote($event)"></app-simpleVoting>
+  } } @else {
+  <app-totalVoting
+    [id]="id"
+    [type]="type"
+    [calcPartial]="calcPartial"
+  ></app-totalVoting>
+  <div class="po-row po-mt-2">
+    <po-button
+      class="po-xl-4 po-lg-4 po-md-4 po-sm-4"
       p-label="Finalizar"
       (p-click)="finish()"
     ></po-button>
     <po-button
-      class="po-xl-6 po-lg-6 po-md-6 po-sm-6"
+      class="po-xl-4 po-lg-4 po-md-4 po-sm-4"
       p-label="Abrir Resultado"
       (p-click)="showPoints()"
+    ></po-button>
+    <po-button
+      class="po-xl-4 po-lg-4 po-md-4 po-sm-4"
+      p-label="Mostrar Parcial"
+      (p-click)="showPartial()"
     ></po-button>
   </div>
 

@@ -9,6 +9,7 @@ import {
   PoTableColumn,
   PoNotificationService,
   PoModalComponent,
+  PoDialogService,
 } from '@po-ui/ng-components';
 
 @Component({
@@ -28,17 +29,37 @@ export class VotingComponent implements OnInit, OnDestroy {
   changeTshirt: string = '';
   startOpen = true;
   idVoting = '';
-
+  stepLabel = 'Funcionalidade';
   showTotal = false;
+  calcPartial = new Date();
+  votesInfo: any;
 
-  functionalityPoint = 0;
-  integrationPoint = 0;
-  tecnologyPoint = 0;
-  riskPoint = 0;
-  scopePoint = 0;
-  experiencePoint = 0;
-  dependencePoint = 0;
-  testPoint = 0;
+  totalFunctionalityPoint = -1;
+  totaIntegrationPoint = -1;
+  totaTecnologyPoint = -1;
+  totaRiskPoint = -1;
+  totaScopePoint = -1;
+  totaExperiencePoint = -1;
+  totaDependencePoint = -1;
+  totaTestPoint = -1;
+
+  MidlFunctionalityPoint = -1;
+  MidIntegrationPoint = -1;
+  MidTecnologyPoint = -1;
+  MidRiskPoint = -1;
+  MidScopePoint = -1;
+  MidExperiencePoint = -1;
+  MidDependencePoint = -1;
+  MidTestPoint = -1;
+
+  functionalityPoint = -1;
+  integrationPoint = -1;
+  tecnologyPoint = -1;
+  riskPoint = -1;
+  scopePoint = -1;
+  experiencePoint = -1;
+  dependencePoint = -1;
+  testPoint = -1;
 
   getRecordById: Subscription;
 
@@ -47,7 +68,8 @@ export class VotingComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private utilsService: UtilsService,
     private router: Router,
-    private poNotificationService: PoNotificationService
+    private poNotificationService: PoNotificationService,
+    private poAlert: PoDialogService
   ) {
     this.poNotificationService.setDefaultDuration(3000);
     if (this.utilsService.getUser() == '') {
@@ -82,6 +104,7 @@ export class VotingComponent implements OnInit, OnDestroy {
         .getRecordById('planning', this.id)
         .subscribe({
           next: (res) => {
+            this.votesInfo = res;
             if (!this.startOpen) {
               this.refreshVotes(res);
             } else {
@@ -118,6 +141,8 @@ export class VotingComponent implements OnInit, OnDestroy {
         this.generateFormVoting()
       )
       .then();
+
+    this.calcPartial = new Date();
     this.poModal.close();
     this.resetVotes = res.finish;
     this.refreshTime = res.refresh;
@@ -139,11 +164,19 @@ export class VotingComponent implements OnInit, OnDestroy {
   }
 
   finish() {
-    this.firestoreService
-      .updateDoc('planning', this.id, { finish: new Date() })
-      .then();
+    this.poAlert.confirm({
+      literals: { cancel: 'Cancelar', confirm: 'Confirmar' },
+      title: 'Zerar Votação',
+      message: 'Deseja realmente zerar a votação?',
+      confirm: () => {
+        this.firestoreService
+          .updateDoc('planning', this.id, { finish: new Date() })
+          .then();
 
-    this.poNotificationService.success('Votação Reiniciada');
+        this.poNotificationService.success('Votação Reiniciada');
+      },
+      cancel: undefined,
+    });
   }
 
   inicializeVoting(res: any) {
@@ -176,18 +209,34 @@ export class VotingComponent implements OnInit, OnDestroy {
       experiencePoint: this.experiencePoint,
       dependencePoint: this.dependencePoint,
       testPoint: this.testPoint,
+      totalFunctionalityPoint: -1,
+      totalIntegrationPoint: -1,
+      totalTecnologyPoint: -1,
+      totalRiskPoint: -1,
+      totalScopePoint: -1,
+      totalExperiencePoint: -1,
+      totalDependencePoint: -1,
+      totalTestPoint: -1,
+      midFunctionalityPoint: -1,
+      midIntegrationPoint: -1,
+      midTecnologyPoint: -1,
+      midRiskPoint: -1,
+      midScopePoint: -1,
+      midExperiencePoint: -1,
+      midDependencePoint: -1,
+      midTestPoint: -1,
     };
   }
 
   resetForm() {
-    this.functionalityPoint = 0;
-    this.integrationPoint = 0;
-    this.tecnologyPoint = 0;
-    this.riskPoint = 0;
-    this.scopePoint = 0;
-    this.experiencePoint = 0;
-    this.dependencePoint = 0;
-    this.testPoint = 0;
+    this.functionalityPoint = -1;
+    this.integrationPoint = -1;
+    this.tecnologyPoint = -1;
+    this.riskPoint = -1;
+    this.scopePoint = -1;
+    this.experiencePoint = -1;
+    this.dependencePoint = -1;
+    this.testPoint = -1;
   }
 
   canActiveNextStep(value: string): boolean {
@@ -197,43 +246,43 @@ export class VotingComponent implements OnInit, OnDestroy {
   receiveFunctionalityPoint(point: any) {
     this.functionalityPoint = point;
     this.updatePoints();
-    this.poStepperComponent.next();
+    //  this.poStepperComponent.next();
   }
 
   receiveIntegrationPoint(point: any) {
     this.integrationPoint = point;
     this.updatePoints();
-    this.poStepperComponent.next();
+    // this.poStepperComponent.next();
   }
 
   receiveTecnologyPoint(point: any) {
     this.tecnologyPoint = point;
     this.updatePoints();
-    this.poStepperComponent.next();
+    //  this.poStepperComponent.next();
   }
 
   receiveRiskPoint(point: any) {
     this.riskPoint = point;
     this.updatePoints();
-    this.poStepperComponent.next();
+    //  this.poStepperComponent.next();
   }
 
   receiveScopePoint(point: any) {
     this.scopePoint = point;
     this.updatePoints();
-    this.poStepperComponent.next();
+    //  this.poStepperComponent.next();
   }
 
   receiveExperiencePoint(point: any) {
     this.experiencePoint = point;
     this.updatePoints();
-    this.poStepperComponent.next();
+    //   this.poStepperComponent.next();
   }
 
   receiveDependencePoint(point: any) {
     this.dependencePoint = point;
     this.updatePoints();
-    this.poStepperComponent.next();
+    //    this.poStepperComponent.next();
     // this.poStepperComponent.next();
   }
 
@@ -251,5 +300,22 @@ export class VotingComponent implements OnInit, OnDestroy {
 
   deleteVote(line: any) {
     this.firestoreService.deleteDoc('planningVotes', line.id).then();
+  }
+
+  backStep() {
+    this.poStepperComponent.previous();
+  }
+
+  nextStep() {
+    this.poStepperComponent.next();
+  }
+
+  changeStepper(e: any) {
+    this.stepLabel = e.label;
+  }
+
+  showPartial() {
+    this.calcPartial = new Date();
+    this.poNotificationService.success('Parciais Calculadas');
   }
 }

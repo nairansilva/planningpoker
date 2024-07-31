@@ -16,14 +16,16 @@ import { VotingPointsInterface } from '../shared/interfaces/voting.model';
   templateUrl: './totalVoting.component.html',
   styleUrls: ['./totalVoting.component.css'],
 })
-export class TotalVotingComponent implements OnInit {
+export class TotalVotingComponent implements OnInit, OnChanges {
   @Input() id = '';
   @Input() isAdmin = true;
   @Input() type = '2';
+  @Input() calcPartial = new Date();
 
   columns: PoTableColumn[];
   items: any;
   totalVotes = 0;
+  totalPerTopic = [0, 0, 0, 0, 0, 0, 0, 0];
   totalPoints = 0;
   tshirt = 'P';
   midPoints = 0;
@@ -42,6 +44,13 @@ export class TotalVotingComponent implements OnInit {
   };
 
   constructor(private firestoreService: FirestoreService) {}
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['calcPartial']) {
+      this.updateTotals();
+      this.calcPartial = new Date();
+    }
+  }
 
   ngOnInit() {
     this.startDetails();
@@ -97,6 +106,8 @@ export class TotalVotingComponent implements OnInit {
     };
 
     let total = 0;
+    this.totalPoints = 0;
+    this.totalPerTopic = [0, 0, 0, 0, 0, 0, 0, 0];
     points.map((point: VotingPointsInterface) => {
       this.totalVotingPoints.functionalityPoint.push(point.functionalityPoint);
       this.totalVotingPoints.integrationPoint.push(point.integrationPoint);
@@ -106,6 +117,8 @@ export class TotalVotingComponent implements OnInit {
       this.totalVotingPoints.experiencePoint.push(point.experiencePoint);
       this.totalVotingPoints.dependencePoint.push(point.dependencePoint);
       this.totalVotingPoints.testPoint.push(point.testPoint);
+
+      this.sumTotalPerTopic(point);
 
       total += point.dependencePoint;
       total += point.integrationPoint;
@@ -117,10 +130,10 @@ export class TotalVotingComponent implements OnInit {
       total += point.testPoint;
     });
 
-    this.totalPoints = 0;
     this.totalPoints += this.mostCommonValue(
       this.totalVotingPoints.dependencePoint
     );
+
     this.totalPoints += this.mostCommonValue(
       this.totalVotingPoints.functionalityPoint
     );
@@ -141,8 +154,65 @@ export class TotalVotingComponent implements OnInit {
 
     this.tshirt = this.calcTshirt(this.totalPoints);
 
+    console.log('total por épico', this.totalPerTopic);
     if (this.type == '1') {
       this.tshirt = this.calcTshirt(total / this.totalVotes);
+    }
+  }
+
+  sumTotalPerTopic(point: any) {
+    this.totalPerTopic[0] += point.functionalityPoint;
+    this.totalPerTopic[1] += point.integrationPoint;
+    this.totalPerTopic[2] += point.tecnologyPoint;
+    this.totalPerTopic[3] += point.riskPoint;
+    this.totalPerTopic[4] += point.scopePoint;
+    this.totalPerTopic[5] += point.experiencePoint;
+    this.totalPerTopic[6] += point.dependencePoint;
+    this.totalPerTopic[7] += point.testPoint;
+  }
+
+  updateTotals() {
+    let formUpdateTotal: any = {};
+
+    const isEmpty = (obj: object): boolean => {
+      return Object.entries(obj).length === 0;
+    };
+
+    formUpdateTotal.totalFunctionalityPoint = this.totalPerTopic[0];
+    formUpdateTotal.midFunctionalityPoint = Math.trunc(
+      this.totalPerTopic[0] / this.totalVotes
+    );
+    formUpdateTotal.totalIntegrationPoint = this.totalPerTopic[1];
+    formUpdateTotal.midIntegrationPoint = Math.trunc(
+      this.totalPerTopic[1] / this.totalVotes
+    );
+    formUpdateTotal.totalTecnologyPoint = this.totalPerTopic[2];
+    formUpdateTotal.midTecnologyPoint = Math.trunc(
+      this.totalPerTopic[2] / this.totalVotes
+    );
+    formUpdateTotal.totalRiskPoint = this.totalPerTopic[3];
+    formUpdateTotal.midRiskPoint = Math.trunc(
+      this.totalPerTopic[3] / this.totalVotes
+    );
+
+    formUpdateTotal.totalScopePoint = this.totalPerTopic[4];
+    formUpdateTotal.midScopePoint = Math.trunc(
+      this.totalPerTopic[4] / this.totalVotes
+    );
+    formUpdateTotal.totalExperiencePoint = this.totalPerTopic[5];
+    formUpdateTotal.midExperiencePoint = Math.trunc(
+      this.totalPerTopic[5] / this.totalVotes
+    );
+    formUpdateTotal.totalDependencePoint = this.totalPerTopic[6];
+    formUpdateTotal.midDependencePoint = Math.trunc(
+      this.totalPerTopic[6] / this.totalVotes
+    );
+    formUpdateTotal.totalTestPoint = this.totalPerTopic[7];
+
+    if (!isEmpty(formUpdateTotal)) {
+      this.firestoreService
+        .updateDoc('planning', this.id, formUpdateTotal)
+        .then();
     }
   }
 
