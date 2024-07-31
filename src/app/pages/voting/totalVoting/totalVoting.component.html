@@ -29,6 +29,18 @@
     <br /><span class="widget-point">{{ tshirt }}</span></po-widget
   >
   }
+
+  <div class="po-row">
+    <div class="po-md-12">
+      <po-gauge
+        p-title="Média de Votos"
+        [p-height]="400"
+        [p-value]="totalPoints"
+        p-description="Média de Camisa"
+        [p-ranges]="turnoverRanges"
+      ></po-gauge>
+    </div>
+  </div>
 </po-container>
 <h2>Participantes</h2>
 

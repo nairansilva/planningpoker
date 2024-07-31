@@ -6,7 +6,7 @@ import {
   SimpleChanges,
   input,
 } from '@angular/core';
-import { PoTableColumn } from '@po-ui/ng-components';
+import { PoGaugeRanges, PoTableColumn } from '@po-ui/ng-components';
 import { FirestoreService } from '../../../shared/services/fire-store.service';
 import { Subscription } from 'rxjs';
 import { VotingPointsInterface } from '../shared/interfaces/voting.model';
@@ -42,6 +42,12 @@ export class TotalVotingComponent implements OnInit, OnChanges {
     dependencePoint: [0],
     testPoint: [0],
   };
+
+  turnoverRanges: Array<PoGaugeRanges> = [
+    { from: 0, to: 7, label: 'P: 0 à 7', color: '#00b28e' },
+    { from: 8, to: 15, label: 'M: 8 à 15', color: '#ea9b3e' },
+    { from: 16, to: 25, label: 'G: 16 à 25', color: '#c64840' },
+  ];
 
   constructor(private firestoreService: FirestoreService) {}
 
